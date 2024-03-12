@@ -5,9 +5,9 @@ import time
 import random
 
 class InstagramClient():
-    def __init__(self, datadict):
+    def __init__(self, df):
 
-        self.datadict = datadict
+        self.df_user_data = df
 
     @classmethod
     def from_api(cls, username, password):
@@ -21,16 +21,17 @@ class InstagramClient():
         comments_all_media = cls.get_comments(medias, client, username, password)
         client.logout()
 
-        datadict = {'userdata': df_user_data, 'comments': comments_all_media}
+        df_user_data['Comments_text'] = comments_all_media
+        #datadict = {'userdata': df_user_data, 'comments': comments_all_media}
 
-        return cls(datadict)
+        return cls(df_user_data)
 
     @classmethod
     def from_pickle(cls, filename):
         with open(filename, 'rb') as filein:
             df = pickle.load(filein)
 
-        #return cls(df)
+        return cls(df)
 
     @classmethod
     def get_user_data(cls, medias):
@@ -39,7 +40,7 @@ class InstagramClient():
         df_user_data['Type'] = [media.media_type for media in medias]  # [::-1]
         df_user_data['Views'] = [media.view_count for media in medias]  # [::-1]
         df_user_data['Likes'] = [media.like_count for media in medias]  # [::-1]
-        df_user_data['Comments'] = [media.comment_count for media in medias]  # [::-1]
+        df_user_data['N_Comments'] = [media.comment_count for media in medias]  # [::-1]
 
         return df_user_data
 
