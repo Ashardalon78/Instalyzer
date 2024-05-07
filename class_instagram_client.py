@@ -8,6 +8,7 @@ class InstagramClient():
     def __init__(self, df):
 
         self.df_user_data = df
+        self.prepare_comment_df()
 
     @classmethod
     def from_api(cls, username, password):
@@ -68,3 +69,15 @@ class InstagramClient():
     def save_obj_as_pickle(self, obj, filename):
         with open(filename, 'wb') as fileout:
             pickle.dump(obj, fileout)
+
+
+    def prepare_comment_df(self, comments_col='Comments_text', owner='ashardalon78'):
+        comments = self.df_user_data[comments_col].explode().dropna()
+        users = comments.apply(lambda x: x.user.username)
+        users.name = 'users'
+
+        comments = comments.apply(lambda x: x.text)
+
+        self.df_comments = pd.DataFrame(pd.concat([comments, users],axis=1))
+        self.df_comments = self.df_comments[self.df_comments['users']!=owner]
+        #self.df_comments = ca.CommmentAnalyser.transform_comments(self.df_comments, colname=comments_col)

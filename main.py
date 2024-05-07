@@ -8,4 +8,5 @@ username = 'ashardalon78'
 #cl.save_obj_as_pickle(cl.df_user_data, f'saved_data/{username}_instadata.pkl')
 
 cl = InstagramClient.from_pickle(f'saved_data/{username}_instadata.pkl')
-print(cl.df_user_data)
+#cl.save_obj_as_pickle(cl.df_comments, f'saved_data/{username}_insta_comments.pkl')
+#print(cl.df_user_data)
