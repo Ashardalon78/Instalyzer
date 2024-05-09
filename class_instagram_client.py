@@ -87,3 +87,14 @@ class InstagramClient():
         self.df_user_data['Comments_Rating'] = self.df_comments.groupby(self.df_comments.index).sum()['Rating']
         self.df_user_data['Comments_Rating'].fillna(0.0, inplace=True)
         self.df_user_data['Rating_Total'] = self.df_user_data['Likes'] + self.df_user_data['Comments_Rating']
+
+    def get_plotting_data(self, quantity):
+        quantity_map = {'Likes': 'Likes', 'Comments_Rating': 'Comments_Rating', 'Rating_Total': 'Rating_Total'}
+
+        x = list(self.df_user_data.index)
+        yname = quantity_map[quantity]
+        y = self.df_user_data[yname]
+
+        return x, y
+
+
