@@ -82,7 +82,8 @@ class InstagramClient():
         self.df_comments = self.df_comments[self.df_comments['users']!=owner]
         #self.df_comments = ca.CommmentAnalyser.transform_comments(self.df_comments, colname=comments_col)
 
-    def write_rated_to_df_user_data(self):
+    def write_rated_to_df_user_data(self, df_comments):
+        self.df_comments = df_comments
         self.df_user_data['Comments_Rating'] = self.df_comments.groupby(self.df_comments.index).sum()['Rating']
         self.df_user_data['Comments_Rating'].fillna(0.0, inplace=True)
         self.df_user_data['Rating_Total'] = self.df_user_data['Likes'] + self.df_user_data['Comments_Rating']
